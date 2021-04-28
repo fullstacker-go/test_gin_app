@@ -8,10 +8,10 @@ import (
 
 type WebStats struct {
 	Domain string `json:"domain_name"`
-	Size   int    `json:"response_time"`
+	Size   int    `json:"response_size"`
 }
 
-func ResponseSize(url string, channel chan WebStats) {
+func ResponseSize(url string, channel chan int) {
 	fmt.Println("Getting", url) // Unchanged
 	response, err := http.Get(url)
 	if err != nil {
@@ -21,5 +21,5 @@ func ResponseSize(url string, channel chan WebStats) {
 	defer response.Body.Close()              // Unchanged
 	body, _ := ioutil.ReadAll(response.Body) // Unchanged
 	// Send body length value via channel.
-	channel <- WebStats{url, len(body)}
+	channel <- len(body)
 }
